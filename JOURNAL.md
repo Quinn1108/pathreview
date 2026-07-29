@@ -6,6 +6,12 @@
 
 **Tier:** [X] Tier 1  [ ] Tier 2  [ ] Tier 3
 
+**Files to touch**: tests/unit/test_relevance_scorer.py only — the fix is confined to the fixture data in the test file itself. No changes needed to the scorer source, since the scorer's behavior (returning 1.0 for full keyword coverage) is correct.
+
+**Estimated time**: ~30 minutes. This is a small, well-understood fix: adjust the fixture chunk so it contains a genuine subset of the query terms rather than all four, re-run the test, confirm it passes.
+Prerequisites: None. The issue is isolated to test fixture design — no dependency on understanding the scorer's internals, no upstream/downstream code to account for, and no environment setup beyond what's already in place.
+
+**Verdict**: Right-sized for a Tier 1 pick — self-contained, low-risk, and doesn't require touching production logic.
 
 **Problem summary:**
 
@@ -16,3 +22,17 @@ The unit test test_query_with_partial_overlap in tests/unit/test_relevance_score
 **Setup confirmation:** [X] App runs locally at localhost:5173
 
 **Cohort ledger:** [X] Issue added to cohort ledger
+
+## 20260721 — Reproduced: test_query_with_partial_overlap failure
+
+**Command:** `pytest tests/unit/test_relevance_scorer.py -q`
+**Observed failure:** `assert 1.0 < 0.9`
+
+**Root cause:** The test fixture's chunk contains all four terms from the
+query "Python Django web framework" — full keyword coverage, not partial
+overlap as the test name implies. The relevance scorer correctly returns
+1.0 for full coverage, so the assertion `score < 0.9` fails against
+correct behavior, not a scorer bug.
+
+**Fix (not yet applied):** Rewrite the fixture chunk so it contains only
+a subset of the query terms, producing genuine partial overlap.

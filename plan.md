@@ -6,7 +6,6 @@
 
 **Issue title:** Relevance scorer “partial overlap” test fixture actually has full query overlap
 
-
 ### Understand
 The test asserts that a "partial overlap" query scores below 0.9, but the fixture chunk
 actually contains all four terms from the query "Python Django web framework" — i.e. full
