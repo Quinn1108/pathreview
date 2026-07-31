@@ -51,7 +51,7 @@ class TestRelevanceScorer:
     # scorer. Fix: adjust the chunk so overlap is genuinely partial.
     def test_query_with_partial_overlap(self, scorer: RelevanceScorer) -> None:
         """Test query with partial overlap returns score between 0 and 1."""
-        query = "Python Django web framework"
+        query = "Django REST authentication"
         chunks: list[Chunk] = [
             {"text": "Django is a Python web framework for rapid development"},
         ]
