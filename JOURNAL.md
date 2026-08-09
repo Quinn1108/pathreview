@@ -53,28 +53,27 @@ I ran pytest tests/unit/test_relevance_scorer.py -q and observed the assertion a
 ### Check-in 1 (mid-week)
 
 **Current progress:**
-[What have you implemented so far? Which sub-tasks from PLAN.md are done?]
+Diagnosed and reproduced the failing test_query_with_partial_overlap test in tests/unit/test_relevance_scorer.py — confirmed the scorer itself is correct and the bug is in the test fixture, which contains full keyword overlap ("Python Django web framework") instead of a genuinely partial match. [### Understand]
 
 **Next steps:**
-[What are you working on for the rest of the week?]
+Update the fixture chunk so it contains only a subset of the query terms, rerun the test suite to confirm the assertion passes meaningfully, and resolve the mypy annotation failures blocking commits in the same file (missing return types and fixture-argument types across all 21 test functions).
 
 **Blockers:**
-[Anything slowing you down? Or leave blank.]
 
 ---
 
 ### Check-in 2 (end of week)
 
-**PR link:** [link to your submitted pull request]
+**PR link:** (https://github.com/ascherj/pathreview/pull/479)
 
-**Branch:** [the branch name you worked on, e.g. `fix/123-short-description`]
+**Branch:**  fix/157-test-coverage-error
 
 **What you built:**
-[1–3 sentences summarizing what your fix does and how it works]
+Fixed the test_query_with_partial_overlap fixture so the chunk text reflects genuine partial keyword overlap rather than full coverage, correcting a false-failure against valid scorer behavior. Also added type annotations (return types and fixture-argument types) across all test functions in test_relevance_scorer.py to satisfy the mypy pre-commit hook.
 
 **Tests added or updated:**
-[Which test files did you touch? What do they cover?]
+Updated tests/unit/test_relevance_scorer.py — specifically the test_query_with_partial_overlap fixture data, plus type annotations on all 21 test functions (no new test cases added, existing coverage of relevance scoring logic preserved).
 
-**Self-review confirmation:** [ ] make check passes  [ ] make test-unit passes
+**Self-review confirmation:** [X] make check passes  [X] make test-unit passes
 
 **Draft PR feedback received from:** [name or Slack handle, or "none"]
